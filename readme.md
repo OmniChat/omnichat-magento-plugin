@@ -76,12 +76,12 @@ To remove the module from your Magento 2 instance:
 
 1. Disable the module:
    ```bash
-   php bin/magento module:disable Vendor_OmniChat
+   php bin/magento module:disable omnichat/magento2
    ```
 
 2. Remove the module using Composer:
    ```bash
-   composer remove vendor/omnichat
+   composer remove omnichat/magento2
    ```
 
 3. Run the following commands to complete the removal:
