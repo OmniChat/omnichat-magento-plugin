@@ -1,0 +1,42 @@
+{
+    "name": "vendor/omnichat",
+    "description": "A Magento 2 module to integrate your magento store with OmniChat",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": [
+        "magento",
+        "omnichat",
+        "chat",
+        "integration"
+    ],
+    "authors": [
+        {
+            "name": "Lucas Daniel Arcanjo",
+            "email": "lucas.santos@omni.chat",
+            "homepage": "https://omni.chat",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~7.4.0 || ~8.0.0",
+        "magento/framework": "^103.0",
+        "magento/module-checkout": "^103.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vendor\\OmniChat\\": ""
+        }
+    },
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Vendor/OmniChat"
+            ]
+        ]
+    }
+}
