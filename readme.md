@@ -22,7 +22,7 @@ Follow these steps to install the module in your Magento 2 instance:
 You can install this module using **Composer**. Run the following command:
 
 ```bash
-composer require vendor/omnichat
+composer require omnichat/magento2
 ```
 
 ### Step 2: Enable the module
