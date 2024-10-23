@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <tab id="vendor_omnichat_tab" translate="label" sortOrder="9999">
+            <label>OmniChat</label>
+        </tab>
+
+        <section id="vendor_omnichat" translate="label" type="text" sortOrder="900" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Settings</label>
+            <tab>vendor_omnichat_tab</tab>
+            <resource>Vendor_Module::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Key</label>
+                </field>
+                <field id="token" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Token</label>
+                </field>
+                <field id="test_credentials" translate="label" type="button" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
