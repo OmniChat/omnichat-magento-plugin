@@ -9,6 +9,16 @@ define(["jquery", "Magento_Ui/js/modal/alert"], function ($, alert) {
         $("#vendor_omnichat_general_test_credentials").on("click", function () {
             var key = $("#vendor_omnichat_general_key").val();
             var token = $("#vendor_omnichat_general_token").val();
+            var keyClone = $("#vendor_omnichat_general_key_clone").val();
+            var tokenClone = $("#vendor_omnichat_general_token_clone").val();
+
+            if (keyClone && !keyClone.split('').every((char) => char === "*")) {
+                key = keyClone;
+            }
+
+            if (tokenClone && !tokenClone.split('').every((char) => char === "*")) {
+                token = tokenClone;
+            }
 
             if (!key.trim() || !token.trim()) {
                 alert({
@@ -24,14 +34,13 @@ define(["jquery", "Magento_Ui/js/modal/alert"], function ($, alert) {
             }
 
             $.ajax({
-                // TODO: Change the URL to the correct example: https://magento-api.omni.chat/plugin/validate-credentials
-                url: "https://private-api2.omni.chat/plans/contracts/retailer?withUsage=false",
-                type: "GET",
+                url: "https://magento-api.omni.chat/plugin/validate",
+                type: "POST",
                 headers: {
                     "x-api-key": key,
                     "x-api-secret": token,
                 },
-                success: function (response) {
+                success: function () {
                     alert({
                         title: $.mage.__("Success"),
                         content: $.mage.__(
