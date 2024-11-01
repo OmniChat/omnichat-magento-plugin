@@ -13,10 +13,12 @@
             <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>General</label>
                 <field id="key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Key</label>
+                    <label>x-api-key</label>
+                    <backend_model>Vendor\OmniChat\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="token" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Token</label>
+                    <label>x-api-secret</label>
+                    <backend_model>Vendor\OmniChat\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="test_credentials" translate="label" type="button" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
                 </field>
