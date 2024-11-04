@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <vendor_omnichat translate="label" sortOrder="999">
+                        <title>OmniChat</title>
+                        <children>
+                            <config translate="title" sortOrder="10">
+                                <title> Settings</title>
+                                <resource>Vendor_OmniChat::config</resource>
+                            </config>
+                        </children>
+                    </vendor_omnichat>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
