@@ -1,0 +1,13 @@
+#vendor_omnichat_general_test_credentials {
+    background-color: #FFBB00;
+    color: #333333;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#vendor_omnichat_general_test_credentials:hover {
+    background-color: #FFE499;
+}
