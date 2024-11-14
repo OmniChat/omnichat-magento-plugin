@@ -34,8 +34,9 @@ class CartLoaderPlugin
         if ($cartId) {
             $quote = $this->quoteFactory->create()->load($cartId);
             if ($quote->getId()) {
+                $this->checkoutSession->clearStorage();
+                $this->checkoutSession->replaceQuote($quote);
                 $this->checkoutSession->setQuoteId($quote->getId());
-                $this->checkoutSession->getQuote()->load($quote->getId());
             }
         }
     }

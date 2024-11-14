@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.1.1
+
+### Fix
+- Fix cart load in checkout 
+
 ## v1.1.0
 
 ### Feat
