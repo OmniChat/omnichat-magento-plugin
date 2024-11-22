@@ -3,4 +3,8 @@
     <event name="sales_order_save_after">
         <observer name="order_after_save_webhook" instance="Vendor\OmniChat\Observer\OrderAfterSave" />
     </event>
+
+    <event name="admin_system_config_changed_section_vendor_omnichat">
+        <observer name="notify_api_on_save_config" instance="Vendor\OmniChat\Observer\NotifyApiOnSaveConfig" />
+    </event>
 </config>

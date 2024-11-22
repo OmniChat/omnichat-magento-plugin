@@ -4,6 +4,7 @@
 
 ### Feat
 - Implements orders webhook
+- Implements save omnichat config webhook
 
 ## v1.1.1
 
