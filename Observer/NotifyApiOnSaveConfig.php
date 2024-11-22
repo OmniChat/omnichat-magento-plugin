@@ -49,11 +49,6 @@ class NotifyApiOnSaveConfig implements ObserverInterface
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Invalid credentials')
             );
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            $this->logger->error('[OmniChatPlugin - ClientException] Error send save config webhook: ' . $e->getMessage());
-            throw new \Magento\Framework\Exception\LocalizedException(
-                __('Error send save config webhook: ' . $e->getMessage())
-            );
         } catch (\Exception $e) {
             $this->logger->error('[OmniChatPlugin - Exception] Error send save config webhook: ' . $e->getMessage());
             throw new \Magento\Framework\Exception\LocalizedException(
