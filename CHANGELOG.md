@@ -1,5 +1,11 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.2.0
+
+### Feat
+- Implements orders webhook
+- Implements save omnichat config webhook
+
 ## v1.1.1
 
 ### Fix
