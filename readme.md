@@ -2,7 +2,7 @@
 
 ## Description
 
-This Magento 2 module allows users to access the cart page using a unique id associated with each cart.
+This Magento 2 module allows you to integrate your magento store with OmniChat 
 
 ---
 
@@ -10,7 +10,10 @@ This Magento 2 module allows users to access the cart page using a unique id ass
 
 - Allows cart access via token-based URL (e.g., `/cart/?cart_id=123`).
 - Extends the default Magento cart page layout.
-
+- Sending order updates to OmniChat.
+- Automatic configuration of integration in OmniChat.
+- Abandoned carts and Abandoned cart campaigns.
+- Integration with OmniChat Whizz agent
 ---
 
 ## Installation Instructions
@@ -58,16 +61,46 @@ app
     └── Vendor
         └── OmniChat
             ├── etc
-            │   ├── module.xml
-            ├── registration.php
-            └── Plugin
-                └── CartLoaderPlugin.php
+            │   └── adminhtml
+            │   │   └── routes.xml
+            │   │   └── sytem.xml
+            │   └── acl.xml
+            │   └── config.xml
+            │   └── di.xml
+            │   └── events.xml
+            │   └── module.xml
+            ├── Model
+            │   ├── Config
+            │   │   └── Backend
+            │   │       └── Encrypted.php
+            ├── Observer
+            │   └── NotifyApiOnSaveConfig.php 
+            │   └── OrderAfterSave.php       
+            ├── Plugin
+            │   └── CartLoaderPlugin.php
+            ├── view
+            │   └── adminhtml
+            │       └── layout
+            │       │   └── adminhtml_system_config_edit.xml
+            │       └── web
+            │           └── css
+            │           └── js
+            └── registration.php
 ```
-
+- `etc/adminhtml/routes.xml`: Defines the custom routes for the module.
+- `etc/adminhtml/system.xml`: Defines the configuration options available in the admin panel.
+- `acl.xml`: Contains permissions configuration settings for the module in admin panel.
+- `config.xml`: Contains configuration settings for the module in admin panel.
+- `di.xml`: The dependencies injection for the module.
+- `events.xml`: Declares event observers for the module.
 - `module.xml`: Declares the module in Magento.
-- `di.xml`: The dependencies injection
-- `CartLoaderPlugin.php`: Contains the logic for managing cart access.
-
+- `Model/Config/Backend/Encrypted.php`: Contains the logic for encrypt and decrypt fields used in admin panel.
+- `Observer/NotifyApiOnSaveConfig.php`: Contains the logic for handling events when save config in admin panel.
+- `Observer/OrderAfterSave.php`: Contains the logic for handling events after save order.
+- `Plugin/CartLoaderPlugin.php`: Contains the logic for managing cart access.
+- `view/adminhtml/layout/adminhtml_system_config_edit.xml`: Defines the layout for the admin panel frontend.
+- `view/web/css`: Contains custom css for module in admin panel.
+- `view/web/js`: Contains custom js for module in admin panel.
 ---
 
 ## Uninstallation
