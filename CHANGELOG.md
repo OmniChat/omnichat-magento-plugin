@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.3.0
+
+### Feat
+- Implements custom shipping quotes API
+
 ## v1.2.0
 
 ### Feat

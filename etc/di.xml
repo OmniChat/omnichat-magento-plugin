@@ -3,4 +3,6 @@
     <type name="Magento\Checkout\Controller\Cart\Index">
         <plugin name="custom_cart_loader" type="Vendor\OmniChat\Plugin\CartLoaderPlugin" />
     </type>
+
+    <preference for="Vendor\OmniChat\Api\ShippingQuoteInterface" type="Vendor\OmniChat\Model\Quote" />
 </config>
