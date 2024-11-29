@@ -2,7 +2,7 @@
     "name": "omnichat/magento2",
     "description": "A Magento 2 module to integrate your magento store with OmniChat",
     "type": "magento2-module",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "license": "MIT",
     "keywords": [
         "magento",
