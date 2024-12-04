@@ -20,7 +20,10 @@
                     <label>x-api-secret</label>
                     <backend_model>Vendor\OmniChat\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="test_credentials" translate="label" type="button" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="webhook_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Webhook Url</label>
+                    <validate>required-entry validate-url</validate>
+                    <default>https://magento-api.omni.chat/v1/webhooks</default>
                 </field>
             </group>
         </section>

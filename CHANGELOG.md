@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.4.0
+
+### Feat
+- Add field to save omnichat webhooks url
+
 ## v1.3.0
 
 ### Feat
