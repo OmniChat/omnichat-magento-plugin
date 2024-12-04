@@ -6,6 +6,7 @@
             <general>
                 <key></key>
                 <token></token>
+                <webhook_url></webhook_url>
             </general>
         </vendor_omnichat>
     </default>

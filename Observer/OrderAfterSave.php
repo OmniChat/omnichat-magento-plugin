@@ -134,8 +134,7 @@ class OrderAfterSave implements ObserverInterface
 
     protected function sendWebhook(array $data)
     {
-        $url = "https://magento-api.omni.chat/v1/webhooks";
-
+        $url = $this->scopeConfig->getValue('vendor_omnichat/general/webhook_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $encryptedKey = $this->scopeConfig->getValue('vendor_omnichat/general/key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $encryptedToken = $this->scopeConfig->getValue('vendor_omnichat/general/token', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
