@@ -146,6 +146,6 @@ class OrderAfterSave implements ObserverInterface
             'x-api-key: ' . $key,
             'x-api-secret: ' . $token
         ]);
-        $this->curl->post($url, json_encode($data));
+        $this->curl->post(rtrim($url, '/') . '/v1/webhooks', json_encode($data));
     }
 }

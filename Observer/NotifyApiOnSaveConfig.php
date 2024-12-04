@@ -38,7 +38,7 @@ class NotifyApiOnSaveConfig implements ObserverInterface
 
             $url = $this->scopeConfig->getValue('vendor_omnichat/general/webhook_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
             $client = new \GuzzleHttp\Client();
-            $client->request('POST', $url, [
+            $client->request('POST', rtrim($url, '/') . '/v1/plugin/configuration', [
                 'headers' => [
                     'x-api-key' => $key,
                     'x-api-secret' => $token
