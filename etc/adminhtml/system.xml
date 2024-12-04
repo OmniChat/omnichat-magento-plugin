@@ -23,7 +23,7 @@
                 <field id="webhook_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Webhook Url</label>
                     <validate>required-entry validate-url</validate>
-                    <default>https://magento-api.omni.chat/v1/webhooks</default>
+                    <backend_model>Vendor\OmniChat\Model\Config\Backend\SetDefaultUrl</backend_model>
                 </field>
             </group>
         </section>
