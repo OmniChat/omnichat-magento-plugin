@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.4.1
+
+### Fix
+- OmniChat webhooks url
+
 ## v1.4.0
 
 ### Feat
