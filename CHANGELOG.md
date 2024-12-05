@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.4.3
+
+### Fix
+- Add quote_id in order webhook
+
 ## v1.4.2
 
 ### Fix
