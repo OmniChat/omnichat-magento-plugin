@@ -90,6 +90,7 @@ class OrderAfterSave implements ObserverInterface
 
         return [
             'order_id' => $order->getId(),
+            'quote_id' => $order->getQuoteId(),
             'increment_id' => $order->getIncrementId(),
             'coupon' => $order->getCouponCode(),
             'status' => $order->getStatus(),
