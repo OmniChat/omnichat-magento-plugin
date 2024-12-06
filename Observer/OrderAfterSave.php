@@ -8,10 +8,18 @@ use Magento\Framework\HTTP\Client\Curl;
 use \Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Catalog\Helper\Image as ImageHelper;
+use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable as ConfigurableProductResource;
+use Magento\Catalog\Model\ProductRepository;
+use Magento\Store\Model\StoreManagerInterface;
 
 class OrderAfterSave implements ObserverInterface
 {
     protected $orderRepository;
+    protected $productRepository;
+    protected $imageHelper;
+    protected $storeManager;
+    protected $configurableProductResource;
     protected $curl;
     protected $scopeConfig;
     protected $encryptor;
@@ -19,12 +27,20 @@ class OrderAfterSave implements ObserverInterface
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
+        ProductRepository $productRepository,
+        ImageHelper $imageHelper,
+        StoreManagerInterface $storeManager,
+        ConfigurableProductResource $configurableProductResource,
         Curl $curl,
         ScopeConfigInterface $scopeConfig,
         EncryptorInterface $encryptor,
         LoggerInterface $logger
     ) {
         $this->orderRepository = $orderRepository;
+        $this->productRepository = $productRepository;
+        $this->imageHelper = $imageHelper;
+        $this->storeManager = $storeManager;
+        $this->configurableProductResource = $configurableProductResource;
         $this->curl = $curl;
         $this->scopeConfig = $scopeConfig;
         $this->encryptor = $encryptor;
@@ -48,12 +64,20 @@ class OrderAfterSave implements ObserverInterface
     {
         $items = [];
         foreach ($order->getAllVisibleItems() as $item) {
+            $itemId = $item->getProductId();
+            $product = $this->productRepository->getById($itemId);
+            $productId = $product->getTypeId() === 'simple' ? $itemId : $this->getParentId($itemId);
+            $imageUrl = $this->getProductImageUrl($product);
+
             $items[] = [
                 'sku' => $item->getSku(),
                 'name' => $item->getName(),
                 'price' => $item->getPrice(),
                 'quantity' => $item->getQtyOrdered(),
-                'total' => $item->getRowTotal()
+                'total' => $item->getRowTotal(),
+                'item_id' => $itemId,
+                'product_id' => $productId,
+                'image_url' => $imageUrl
             ];
         }
 
@@ -116,6 +140,26 @@ class OrderAfterSave implements ObserverInterface
             'shipment_info' => $shipmentData,
             'type' => 'ORDER',
         ];
+    }
+
+    protected function getParentId($productId)
+    {
+        $parentIds = $this->configurableProductResource->getParentIdsByChild($productId);
+        return !empty($parentIds) ? $parentIds[0] : null;
+    }
+
+    protected function getProductImageUrl($product)
+    {
+        try {
+            $image = $product->getData('image');
+            if (!$image || $image === 'no_selection') {
+                return $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product/placeholder/image.jpg';
+            }
+
+            return $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $image;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     protected function formatAddress($address)

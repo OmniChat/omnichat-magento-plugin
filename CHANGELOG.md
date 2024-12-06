@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.5.0
+
+### Feat
+- Add fields item_id, product_id and image_url in order items when send order webhook
+
 ## v1.4.3
 
 ### Fix

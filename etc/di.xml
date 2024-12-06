@@ -5,4 +5,12 @@
     </type>
 
     <preference for="Vendor\OmniChat\Api\ShippingQuoteInterface" type="Vendor\OmniChat\Model\Quote" />
+
+    <type name="Vendor\OmniChat\Observer\OrderAfterSave">
+        <arguments>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="configurableProductResource" xsi:type="object">Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable</argument>
+            <argument name="productRepository" xsi:type="object">Magento\Catalog\Model\ProductRepository</argument>
+        </arguments>
+    </type>
 </config>
