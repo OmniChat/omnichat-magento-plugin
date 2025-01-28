@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.5.2
+
+### Fix
+- Fixes plugin configuration files
+
 ## v1.5.1
 
 ### Fix
