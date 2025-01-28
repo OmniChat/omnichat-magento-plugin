@@ -3,19 +3,11 @@
     xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
     <acl>
         <resources>
-            <admin>
-                <children>
-                    <vendor_omnichat translate="label" sortOrder="999">
-                        <title>OmniChat</title>
-                        <children>
-                            <config translate="title" sortOrder="10">
-                                <title> Settings</title>
-                                <resource>Vendor_OmniChat::config</resource>
-                            </config>
-                        </children>
-                    </vendor_omnichat>
-                </children>
-            </admin>
+            <resource id="Magento_Backend::admin">
+                <resource id="Vendor_OmniChat::main" title="OmniChat" translate="title" sortOrder="999">
+                    <resource id="Vendor_OmniChat::config" title="Settings" translate="title" sortOrder="10" />
+                </resource>
+            </resource>
         </resources>
     </acl>
 </config>
