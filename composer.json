@@ -2,7 +2,7 @@
     "name": "omnichat/magento2",
     "description": "A Magento 2 module to integrate your magento store with OmniChat",
     "type": "magento2-module",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "license": "MIT",
     "keywords": [
         "magento",
@@ -30,14 +30,6 @@
         "psr-4": {
             "Vendor\\OmniChat\\": ""
         }
-    },
-    "extra": {
-        "map": [
-            [
-                "*",
-                "Vendor/OmniChat"
-            ]
-        ]
     },
     "minimum-stability": "stable",
     "prefer-stable": true
