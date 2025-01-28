@@ -1,5 +1,10 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.5.1
+
+### Fix
+- Fixes the installation of the package that was generating duplicate folders
+
 ## v1.5.0
 
 ### Feat
