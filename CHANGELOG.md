@@ -1,5 +1,11 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.6.0
+
+### Feat
+- Send installed Magento edition and version and OmniChat plugin version in webhook
+- Adjusts cart injection in user section in ecommerce
+
 ## v1.5.2
 
 ### Fix

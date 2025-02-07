@@ -8,6 +8,8 @@ use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\HTTP\Client\Curl;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\App\ProductMetadataInterface;
 
 class NotifyApiOnSaveConfig implements ObserverInterface
 {
@@ -15,17 +17,23 @@ class NotifyApiOnSaveConfig implements ObserverInterface
     protected $scopeConfig;
     protected $encryptor;
     protected $curl;
+    protected $moduleList;
+    protected $productMetadata;
 
     public function __construct(
         LoggerInterface $logger,
         ScopeConfigInterface $scopeConfig,
         EncryptorInterface $encryptor,
-        Curl $curl
+        Curl $curl,
+        ModuleListInterface $moduleList,
+        ProductMetadataInterface $productMetadata
     ) {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->encryptor = $encryptor;
         $this->curl = $curl;
+        $this->moduleList = $moduleList;
+        $this->productMetadata = $productMetadata;
     }
 
     public function execute(Observer $observer)
@@ -42,6 +50,11 @@ class NotifyApiOnSaveConfig implements ObserverInterface
                 'headers' => [
                     'x-api-key' => $key,
                     'x-api-secret' => $token
+                ],
+                'json' => [
+                    'magento_version' => $this->productMetadata->getVersion(),
+                    'magento_edition' => $this->productMetadata->getEdition(),
+                    'omnichat_plugin_version' => $this->moduleList->getOne('Vendor_OmniChat')['setup_version'] ?? 'unknown'
                 ]
             ]);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
