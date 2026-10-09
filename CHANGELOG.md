@@ -1,5 +1,12 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.8.0
+
+- [SCN-373](https://omnichat.atlassian.net/browse/SCN-373)
+
+### Feat
+- Notify OmniChat when products change (save, delete and mass attribute update) so the intelligent catalog (OIC) stays current; sends only ids and SKUs (configurable children as their parent) to `/v1/product-webhooks`, with a 3s timeout and without failing the save
+
 ## v1.7.0
 
 - [SCN-372](https://omnichat.atlassian.net/browse/SCN-372)
