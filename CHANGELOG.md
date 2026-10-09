@@ -1,5 +1,15 @@
 [Semantic Version](https://semver.org/spec/v2.0.0.html)
 
+## v1.7.0
+
+- [SCN-372](https://omnichat.atlassian.net/browse/SCN-372)
+
+### Feat
+- Send `updated_at` (UTC save time) in the order webhook
+
+### Fix
+- Keep the order items in the order webhook when the order has shipments; they were replaced by the last shipment's items, which carry no price
+
 ## v1.6.0
 
 ### Feat

@@ -93,12 +93,14 @@ class OrderAfterSave implements ObserverInterface
                 ];
             }
 
-            $items = [];
-            foreach ($shipment->getAllItems() as $item) {
-                $items[] = [
-                    'sku' => $item->getSku(),
-                    'name' => $item->getName(),
-                    'quantity' => $item->getQty(),
+            // Own variable: reusing $items replaced the order items with the
+            // last shipment's, which carry no price.
+            $shipmentItems = [];
+            foreach ($shipment->getAllItems() as $shipmentItem) {
+                $shipmentItems[] = [
+                    'sku' => $shipmentItem->getSku(),
+                    'name' => $shipmentItem->getName(),
+                    'quantity' => $shipmentItem->getQty(),
                 ];
             }
 
@@ -106,7 +108,7 @@ class OrderAfterSave implements ObserverInterface
                 'shipment_id' => $shipment->getId(),
                 'increment_id' => $shipment->getIncrementId(),
                 'tracks' => $tracks,
-                'items' => $items,
+                'items' => $shipmentItems,
                 'state' => $shipment->getState(),
                 'status' => $shipment->getStatus()
             ];
@@ -127,6 +129,9 @@ class OrderAfterSave implements ObserverInterface
             'total_paid' => $order->getTotalPaid(),
             'total_due' => $order->getTotalDue(),
             'created_at' => $order->getCreatedAt(),
+            // The database refreshes sales_order.updated_at, so the loaded order
+            // may still hold the previous value here; this event runs on the save.
+            'updated_at' => gmdate('Y-m-d H:i:s'),
             'customer' => [
                 'id' => $order->getCustomerId(),
                 'email' => $order->getCustomerEmail(),
