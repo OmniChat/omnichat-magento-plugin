@@ -8,6 +8,10 @@
         <observer name="omnichat_product_changed" instance="Vendor\OmniChat\Observer\ProductChanged" />
     </event>
 
+    <event name="catalog_product_delete_before">
+        <observer name="omnichat_product_deleting" instance="Vendor\OmniChat\Observer\ProductChanged" />
+    </event>
+
     <event name="catalog_product_delete_after_done">
         <observer name="omnichat_product_deleted" instance="Vendor\OmniChat\Observer\ProductChanged" />
     </event>

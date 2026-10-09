@@ -5,7 +5,7 @@ use Magento\Catalog\Model\ResourceModel\Product as ProductResource;
 use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable as ConfigurableProductResource;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
-use Magento\Framework\HTTP\Client\Curl;
+use Magento\Framework\HTTP\Client\CurlFactory;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ class ProductWebhook
     protected $productResource;
     protected $configurableProductResource;
     protected $storeManager;
-    protected $curl;
+    protected $curlFactory;
     protected $scopeConfig;
     protected $encryptor;
     protected $logger;
@@ -33,7 +33,7 @@ class ProductWebhook
         ProductResource $productResource,
         ConfigurableProductResource $configurableProductResource,
         StoreManagerInterface $storeManager,
-        Curl $curl,
+        CurlFactory $curlFactory,
         ScopeConfigInterface $scopeConfig,
         EncryptorInterface $encryptor,
         LoggerInterface $logger
@@ -41,10 +41,15 @@ class ProductWebhook
         $this->productResource = $productResource;
         $this->configurableProductResource = $configurableProductResource;
         $this->storeManager = $storeManager;
-        $this->curl = $curl;
+        $this->curlFactory = $curlFactory;
         $this->scopeConfig = $scopeConfig;
         $this->encryptor = $encryptor;
         $this->logger = $logger;
+    }
+
+    public function parentIds($productId)
+    {
+        return $this->configurableProductResource->getParentIdsByChild($productId) ?: [];
     }
 
     /**
@@ -56,8 +61,7 @@ class ProductWebhook
         try {
             $ids = [];
             foreach ($productIds as $productId) {
-                $parentIds = $this->configurableProductResource->getParentIdsByChild($productId);
-                foreach ($parentIds ?: [$productId] as $id) {
+                foreach ($this->parentIds($productId) ?: [$productId] as $id) {
                     $ids[$id] = true;
                 }
             }
@@ -92,13 +96,16 @@ class ProductWebhook
                     return;
                 }
 
-                $this->curl->setTimeout(self::TIMEOUT_SECONDS);
-                $this->curl->setOption(CURLOPT_HTTPHEADER, [
+                // Own client: the shared Curl would carry this timeout over to
+                // the order webhook in the same request.
+                $curl = $this->curlFactory->create();
+                $curl->setTimeout(self::TIMEOUT_SECONDS);
+                $curl->setOption(CURLOPT_HTTPHEADER, [
                     'Content-Type: application/json',
                     'x-api-key: ' . $key,
                     'x-api-secret: ' . $token
                 ]);
-                $this->curl->post(rtrim($url, '/') . '/v1/product-webhooks', json_encode([
+                $curl->post(rtrim($url, '/') . '/v1/product-webhooks', json_encode([
                     // Picks the integration when the retailer has several stores.
                     'store_url' => $this->storeManager->getDefaultStoreView()->getBaseUrl(),
                     'products' => $chunk,
