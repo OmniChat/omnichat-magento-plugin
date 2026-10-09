@@ -6,6 +6,7 @@
 
 ### Feat
 - Notify OmniChat when products change (save, delete and mass attribute update) so the intelligent catalog (OIC) stays current; sends only ids and SKUs (configurable children as their parent) to `/v1/product-webhooks`, with a 3s timeout and without failing the save
+- While OmniChat answers `ignored` (OIC off), product saves skip the call for 10 minutes (Magento cache)
 
 ## v1.7.0
 

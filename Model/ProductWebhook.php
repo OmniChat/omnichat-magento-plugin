@@ -3,6 +3,7 @@ namespace Vendor\OmniChat\Model;
 
 use Magento\Catalog\Model\ResourceModel\Product as ProductResource;
 use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable as ConfigurableProductResource;
+use Magento\Framework\App\CacheInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\HTTP\Client\CurlFactory;
@@ -20,6 +21,10 @@ class ProductWebhook
     const TIMEOUT_SECONDS = 3;
     // Keeps a mass update from becoming one huge request.
     const CHUNK_SIZE = 50;
+    // While the OIC is off the adapter answers "ignored": skipping the call for a
+    // while spares every product save the round trip.
+    const IGNORED_CACHE_KEY = 'omnichat_product_webhook_ignored';
+    const IGNORED_CACHE_LIFETIME = 600;
 
     protected $productResource;
     protected $configurableProductResource;
@@ -28,6 +33,7 @@ class ProductWebhook
     protected $scopeConfig;
     protected $encryptor;
     protected $logger;
+    protected $cache;
 
     public function __construct(
         ProductResource $productResource,
@@ -36,7 +42,8 @@ class ProductWebhook
         CurlFactory $curlFactory,
         ScopeConfigInterface $scopeConfig,
         EncryptorInterface $encryptor,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        CacheInterface $cache
     ) {
         $this->productResource = $productResource;
         $this->configurableProductResource = $configurableProductResource;
@@ -45,6 +52,7 @@ class ProductWebhook
         $this->scopeConfig = $scopeConfig;
         $this->encryptor = $encryptor;
         $this->logger = $logger;
+        $this->cache = $cache;
     }
 
     public function parentIds($productId)
@@ -58,6 +66,10 @@ class ProductWebhook
      */
     public function notifyByIds(array $productIds)
     {
+        if ($this->isIgnored()) {
+            return;
+        }
+
         try {
             $ids = [];
             foreach ($productIds as $productId) {
@@ -86,6 +98,10 @@ class ProductWebhook
      */
     public function send(array $products)
     {
+        if ($this->isIgnored()) {
+            return;
+        }
+
         foreach (array_chunk($products, self::CHUNK_SIZE) as $chunk) {
             try {
                 $url = $this->scopeConfig->getValue('vendor_omnichat/general/webhook_url', ScopeInterface::SCOPE_STORE);
@@ -110,9 +126,20 @@ class ProductWebhook
                     'store_url' => $this->storeManager->getDefaultStoreView()->getBaseUrl(),
                     'products' => $chunk,
                 ]));
+
+                if ($curl->getStatus() === 200 && json_decode($curl->getBody(), true) === 'ignored') {
+                    $this->cache->save('1', self::IGNORED_CACHE_KEY, [], self::IGNORED_CACHE_LIFETIME);
+
+                    return;
+                }
             } catch (\Exception $e) {
                 $this->logger->error('[OmniChatPlugin] Error send product webhook: ' . $e->getMessage());
             }
         }
+    }
+
+    protected function isIgnored()
+    {
+        return (bool) $this->cache->load(self::IGNORED_CACHE_KEY);
     }
 }
