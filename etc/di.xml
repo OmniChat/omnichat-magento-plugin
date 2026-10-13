@@ -4,6 +4,10 @@
         <plugin name="custom_cart_loader" type="Vendor\OmniChat\Plugin\CartLoaderPlugin" />
     </type>
 
+    <type name="Magento\Catalog\Model\Product\Action">
+        <plugin name="omnichat_product_mass_update" type="Vendor\OmniChat\Plugin\ProductActionPlugin" />
+    </type>
+
     <preference for="Vendor\OmniChat\Api\ShippingQuoteInterface" type="Vendor\OmniChat\Model\Quote" />
 
     <type name="Vendor\OmniChat\Observer\OrderAfterSave">

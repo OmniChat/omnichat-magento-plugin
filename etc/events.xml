@@ -4,6 +4,18 @@
         <observer name="order_after_save_webhook" instance="Vendor\OmniChat\Observer\OrderAfterSave" />
     </event>
 
+    <event name="catalog_product_save_commit_after">
+        <observer name="omnichat_product_changed" instance="Vendor\OmniChat\Observer\ProductChanged" />
+    </event>
+
+    <event name="catalog_product_delete_before">
+        <observer name="omnichat_product_deleting" instance="Vendor\OmniChat\Observer\ProductChanged" />
+    </event>
+
+    <event name="catalog_product_delete_after_done">
+        <observer name="omnichat_product_deleted" instance="Vendor\OmniChat\Observer\ProductChanged" />
+    </event>
+
     <event name="admin_system_config_changed_section_vendor_omnichat">
         <observer name="notify_api_on_save_config" instance="Vendor\OmniChat\Observer\NotifyApiOnSaveConfig" />
     </event>
