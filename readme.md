@@ -11,6 +11,7 @@ This Magento 2 module allows you to integrate your magento store with OmniChat
 - Allows cart access via token-based URL (e.g., `/cart/?cart_id=123`).
 - Extends the default Magento cart page layout.
 - Sending order updates to OmniChat.
+- Sending product changes (save, delete, mass attribute update) to OmniChat, which keeps its intelligent catalog (OIC) current when enabled.
 - Automatic configuration of integration in OmniChat.
 - Abandoned carts and Abandoned cart campaigns.
 - Integration with OmniChat Whizz agent
