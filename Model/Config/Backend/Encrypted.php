@@ -18,8 +18,8 @@ class Encrypted extends Value
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         EncryptorInterface $encryptor,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         $this->encryptor = $encryptor;
@@ -30,7 +30,12 @@ class Encrypted extends Value
     {
         $value = $this->getValue();
         if (!empty($value)) {
-            $this->setValue($this->encryptor->encrypt($value));
+            $oldValue = $this->getOldValue();
+            if ($oldValue !== '' && $value === $this->mask($this->encryptor->decrypt($oldValue))) {
+                $this->setValue($oldValue);
+            } else {
+                $this->setValue($this->encryptor->encrypt($value));
+            }
         }
         return parent::beforeSave();
     }
@@ -40,9 +45,13 @@ class Encrypted extends Value
         $value = $this->getValue();
         if (!empty($value)) {
             $decryptedValue = $this->encryptor->decrypt($value);
-            $maskedValue = str_repeat('*', max(strlen($decryptedValue) - 4, 0)) . substr($decryptedValue, -4);
-            $this->setValue($maskedValue);
+            $this->setValue($this->mask($decryptedValue));
         }
         return parent::afterLoad();
+    }
+
+    private function mask(string $decryptedValue): string
+    {
+        return str_repeat('*', max(strlen($decryptedValue) - 4, 0)) . substr($decryptedValue, -4);
     }
 }
