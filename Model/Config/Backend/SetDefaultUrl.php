@@ -13,5 +13,7 @@ class SetDefaultUrl extends Value
         if (!$this->getValue()) {
             $this->setValue(self::DEFAULT_URL);
         }
+
+        return $this;
     }
 }
